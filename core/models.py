@@ -121,6 +121,7 @@ class Exercise_Multi_Choice(Exercise):
 
 class Exercise_Quest_Answer(Exercise):
   exercise_list = models.ForeignKey(Exercise_List, on_delete=models.CASCADE, null=True, blank=True)
+  code_snippet = models.TextField(max_length=1000, null=True, blank=True)
   answer = models.CharField(max_length=200)
 
 

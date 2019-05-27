@@ -85,6 +85,7 @@
       </h2>
       <hr>
       {% for exercise_list in exercises_list %}
+        {% if exercise_list.id not in done_exercises_list_ids %}
         <div class="card">
           <div class="card-header">
             {{exercise_list.name}}
@@ -95,27 +96,30 @@
               With supporting text below as a natural lead-in to additional
               content.
             </p>
-            <a href="/exercise/1" class="btn btn-primary">Go somewhere</a>
+            <a href="/exercise/{{exercise_list.id}}" class="btn btn-primary">Go somewhere</a>
           </div>
         </div>
+        {% endif %}
       {% endfor %}
       <h2>
         Fait
       </h2>
       <hr>
-      <div class="card">
-        <div class="card-header">
-          Exercise 3
+      {% for exercise_list in done_exercises_list %}
+        <div class="card">
+          <div class="card-header">
+            {{exercise_list.exercise_list.name}}
+          </div>
+          <div class="card-body">
+            <h5 class="card-title">Special title treatment</h5>
+            <p class="card-text">
+              With supporting text below as a natural lead-in to additional
+              content.
+            </p>
+            <a href="/exercise/{{exercise_list.exercise_list.id}}" class="btn btn-primary">Go somewhere</a>
+          </div>
         </div>
-        <div class="card-body">
-          <h5 class="card-title">Special title treatment</h5>
-          <p class="card-text">
-            With supporting text below as a natural lead-in to additional
-            content.
-          </p>
-          <a href="#" class="btn btn-primary">Go somewhere</a>
-        </div>
-      </div>
+      {% endfor %}
     </div>
     <div
       class="tab-pane fade"

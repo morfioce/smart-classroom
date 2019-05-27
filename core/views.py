@@ -70,13 +70,17 @@ def student_home(request):
         student = Student.objects.get(pk=user_id)
         group_assignments = student.group.group_assignment_set.all()
         exercises_list = [group_ass.assignment for group_ass in group_assignments]
+        done_exercises_list = Student_Exercise_List.objects.filter(student__id=user_id)
+        done_exercises_list_ids = [ex_list.exercise_list.id for ex_list in done_exercises_list]
         # exercises = [exercise.exercise_list.exercise_quest_answer_set.all() for exercise in exercise_list]
         return render(
             request, 
             'smart-classroom/student_home.html', 
             {
                 'student': student.first_name,
-                'exercises_list': exercises_list
+                'exercises_list': exercises_list,
+                'done_exercises_list': done_exercises_list,
+                'done_exercises_list_ids': done_exercises_list_ids
             }
         )
     else:
