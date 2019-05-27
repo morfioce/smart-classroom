@@ -138,6 +138,6 @@ def exercise(request, exercise_list_id):
 def exercise_submit(request, exercise_list_id):
     student = Student.objects.get(pk=1)
     exercise_list = Exercise_List.objects.get(pk=exercise_list_id)
-    student_ex_list = Student_Exercise_List(student=student, exercise_list=exercise_list,status='done')
+    student_ex_list = Student_Exercise_List(student=student, exercise_list=exercise_list,status=1)
     student_ex_list.save()
     return redirect('student_home')
