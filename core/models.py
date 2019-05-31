@@ -36,6 +36,13 @@ class Cours(models.Model):
   def __str__(self):
     return self.name
 
+class Topic(models.Model):
+  course = models.ForeignKey(Cours, on_delete=models.CASCADE, null=True, blank=True)
+  name = models.CharField(max_length=30)
+
+  def __str__(self):
+    return self.name + ': ' + self.course.name
+
 class Student(models.Model):
   group = models.ForeignKey(Group, on_delete=models.CASCADE, null=True)
   first_name = models.CharField(max_length=30)
@@ -103,8 +110,9 @@ class Exercise_List(Assignment):
     return 'List exercise of ' + self.author.specilization + ' created by ' + self.test.first_name + ' ' + self.test.last_name
 
 class Exercise(models.Model):
-  author = models.ForeignKey(Teacher, on_delete=models.CASCADE, null=True)
-  test = models.ForeignKey(Test, on_delete=models.CASCADE, null=True, blank=True)
+  author = models.ForeignKey(Teacher, on_delete=models.CASCADE, null=True, blank=True)
+  test = models.ForeignKey(Test, on_delete=models.SET_NULL, null=True, blank=True)
+  topic = models.ForeignKey(Topic, on_delete=models.SET_NULL ,null=True, blank=True)
   text = models.CharField(max_length=200)
   difficulty = models.IntegerField(
     choices=((1, 'easy'), (2, 'medium'), (3, 'hard')),
@@ -112,6 +120,8 @@ class Exercise(models.Model):
   )
 
   def __str__(self):
+    if self.topic:
+      return self.text + ' | ' + self.topic.name
     return self.text
 
 class Exercise_Multi_Choice(Exercise):

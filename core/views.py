@@ -36,8 +36,7 @@ def login(request):
                     return redirect('teacher_home')
                 else:
                     return render(request, 'smart-classroom/login.html', {'error' : 'email and password do not match'})
-            except e:
-                print(e)
+            except:
                 return render(request, 'smart-classroom/login.html', {'error' : 'Not registered'})
     else:
         try:
@@ -90,8 +89,7 @@ def teacher_home(request):
     user_id = request.session.get('teacher_id')
     if user_id:
         teacher = Teacher.objects.get(pk=user_id)
-        print(teacher)
-        return render(request, 'smart-classroom/teacher_home.html', {'teacher': teacher.first_name})
+        return render(request, 'smart-classroom/teacher_home.html', {'teacher': teacher})
     else:
         return redirect('login')
 
@@ -145,3 +143,7 @@ def exercise_submit(request, exercise_list_id):
     student_ex_list = Student_Exercise_List(student=student, exercise_list=exercise_list,status=1)
     student_ex_list.save()
     return redirect('student_home')
+
+def generated_assignment(request):
+    print(request.POST)
+    return render(request, 'smart-classroom/generated_assignment.html', {})

@@ -2,6 +2,7 @@ from django.contrib import admin
 
 from .models import Test
 from .models import Cours
+from .models import Topic
 from .models import Exercise_List
 from .models import Exercise_Multi_Choice
 from .models import Exercise_Quest_Answer
@@ -15,6 +16,7 @@ from .models import Student_Exercise_List
 
 admin.site.register(Test)
 admin.site.register(Cours)
+admin.site.register(Topic)
 admin.site.register(Exercise_List)
 admin.site.register(Exercise_Multi_Choice)
 admin.site.register(Exercise_Quest_Answer)
