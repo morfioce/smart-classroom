@@ -88,6 +88,8 @@ def student_home(request):
 def teacher_home(request):
     user_id = request.session.get('teacher_id')
     if user_id:
+        if request.method == "POST":
+            return HttpResponse("exercise saved")
         teacher = Teacher.objects.get(pk=user_id)
         return render(request, 'smart-classroom/teacher_home.html', {'teacher': teacher})
     else:
@@ -145,5 +147,21 @@ def exercise_submit(request, exercise_list_id):
     return redirect('student_home')
 
 def generated_assignment(request):
-    print(request.POST)
-    return render(request, 'smart-classroom/generated_assignment.html', {})
+    if request.POST.get('__action', None) == "save":
+        return redirect('teacher_home')
+    ex_num = int(request.POST['num-exercise'])
+    name = request.POST['name']
+    topics = request.POST.getlist('topic')
+    types = request.POST.getlist('type')
+    coefficients = request.POST.getlist('coefficient')
+    types = request.POST.getlist('difficulty')
+
+    exercises = Exercise_Quest_Answer.objects.all()[:ex_num]
+    exercises_ids = [ex.id for ex in exercises]
+    print(exercises)
+    print(exercises_ids)
+    
+    return render(
+        request, 
+        'smart-classroom/generated_assignment.html', 
+        { 'exercises': exercises, 'ids': exercises_ids, 'name': name })
